@@ -1,4 +1,6 @@
 import database_manager
+from datetime import datetime
+import sys
 
 db = database_manager.DatabaseManager('bookmarks.db')
 
@@ -12,7 +14,6 @@ class CreateBookmarksTableCommand:
             'date_added': 'text not null',
         })
 
-from datetime import datetime
 
 class AddBookmarkCommand:
     def execute(self, data):
@@ -20,9 +21,21 @@ class AddBookmarkCommand:
         db.add('bookmarks', data)
         return 'Bookmark added!'
 
+
 class ListBookmarksCommand:
     def __init__(self, order_by='date_added'):
         self.order_by = order_by
 
     def execute(self):
         return db.select('bookmarks', order_by=self.order_by).fetchall()
+
+
+class DeleteBookmarkCommand:
+    def execute(self, data):
+        db.delete('bookmarks', {'id': data})
+        return 'Bookmark deleted!'
+
+
+class QuitCommand:
+    def execute(self):
+        sys.exit()
