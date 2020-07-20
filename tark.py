@@ -50,9 +50,7 @@ def clear_screen():
     clear = 'cls' if os.name == 'nt' else 'clear'
     os.system(clear)
 
-if __name__ == '__main__':
-    commands.CreateBookmarksTableCommand().execute()
-
+def loop():
     options = {
         'A': Option('Add a bookmark', commands.AddBookmarkCommand(), prep_call=get_new_bookmark_data),
         'B': Option('List bookmarks by date', commands.ListBookmarksCommand()),
@@ -66,3 +64,12 @@ if __name__ == '__main__':
     chosen_option = get_option_choice(options)
     clear_screen()
     chosen_option.choose()
+
+    _ = input('Press ENTER to return to menu')
+
+if __name__ == '__main__':
+    commands.CreateBookmarksTableCommand().execute()
+
+    while True:
+        loop()
+
